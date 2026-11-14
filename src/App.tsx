@@ -124,7 +124,7 @@ function SearchResults({ query, commands: foundCommands, distros, guides: foundG
     {foundCommands.length > 0 && <div className="search-group"><div className="section-head"><h2>Commands</h2><button className="text-link" onClick={() => onNavigate("commands")}>Open library →</button></div>{foundCommands.map((x) => <CommandRow key={x.command} item={x} copied={copied} onCopy={onCopy} />)}</div>}
     {distros.length > 0 && <div className="search-group"><div className="section-head"><h2>Distributions</h2><button className="text-link" onClick={() => onNavigate("distros")}>View all →</button></div><div className="distro-strip">{distros.map((x) => <DistroMini key={x.name} item={x} />)}</div></div>}
     {foundGuides.length > 0 && <div className="search-group"><div className="section-head"><h2>Guides and recovery</h2><button className="text-link" onClick={() => onNavigate("learn")}>Learning hub →</button></div>{foundGuides.map((x) => <div className="search-guide" key={x.title}><div><small>{x.category}</small><h3>{x.title}</h3><p>{x.description}</p></div><span>{x.time}</span></div>)}</div>}
-  }</section>;
+  </>}</section>;
 }
 
 export default App;
