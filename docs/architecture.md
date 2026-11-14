@@ -37,3 +37,17 @@ The website must never depend on Tauri APIs. Future desktop-only features should
 
 ## Safety and quality
 Prefer read-only diagnostics before repair commands. Explain each command, flag privileged/destructive operations, state distro/version coverage, and include references plus a last-reviewed date.
+
+
+## Native system probe (Phase 1)
+
+The first read-only backend modules live in `src-tauri/src/system_probe/`:
+
+- `os_release.rs` parses `/etc/os-release` as data. It never executes or sources the file.
+- `gpu.rs` prefers `lspci -D -nn` for a descriptive model and falls back to PCI IDs, vendor IDs, and driver symlinks under `/sys/bus/pci/devices`.
+
+The sysfs fallback can reliably identify PCI display-class devices and their IDs, but it cannot promise a marketing model name on every machine. Non-PCI graphics devices may need a later DRM/platform-device detector.
+
+Both parsers expose serializable Rust types and unit tests. The Tauri command layer and React dashboard integration are the next implementation step. Dynamic metrics (CPU load, used memory, uptime) should be collected separately from static system details so the frontend does not repeat static discovery during polling.
+
+Tauri v2 note: commands registered with `invoke_handler` are callable by app webviews by default. Capabilities are still important for isolating windows and granting plugin permissions; custom command exposure can be further restricted through Tauri's app manifest when required.
